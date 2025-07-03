@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->string('logo');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('code')->unique();
             $table->string('name');
-            $table->string('username')->unique();
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->enum('role',['admin','store']);
-            $table->rememberToken();
+            $table->integer('table_number');
+            $table->enum('payment_method',['case','midtrans']);
+            $table->decimal('total_price',10,2);
+            $table->enum('status',['pending','success','failes']);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('transactions');
     }
 };
