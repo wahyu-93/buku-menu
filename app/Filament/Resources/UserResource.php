@@ -12,12 +12,20 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user';
+
+    protected static ?string $navigationLabel = 'Manajemen Users';
+
+    public static function canViewAny(): bool
+    {
+        return Auth::user()->role === 'admin';
+    }
 
     public static function form(Form $form): Form
     {
@@ -25,6 +33,8 @@ class UserResource extends Resource
             ->schema([
                 Forms\Components\FileUpload::make('logo')
                     ->required()
+                    ->directory('logos')
+                    ->imagePreviewHeight('200') // agar preview muncul
                     ->image(),
                 Forms\Components\TextInput::make('name')
                     ->required(),
@@ -53,17 +63,15 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('logo')
-                    ->searchable(),
+                Tables\Columns\ImageColumn::make('logo_url')
+                    ->label('logo')
+                    ->square(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('username')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('role'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
