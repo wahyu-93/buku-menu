@@ -36,6 +36,14 @@ class ProductCategoryResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->label('Kategori')
                     ->required(),
+                Forms\Components\FileUpload::make('icon')
+                    ->label('Icon')
+                    ->disk('public')
+                    ->directory('category-icons')
+                    ->image()
+                    ->imagePreviewHeight('150')
+                    ->visibility('public')
+                    ->default('category-icons/category-default.png') // file ini harus ada di storage
             ]);
     }
 
@@ -50,6 +58,8 @@ class ProductCategoryResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label('Kategori')
                     ->searchable(),
+                Tables\Columns\ImageColumn::make('icon')
+                    ->label('Icon Kategori'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -97,7 +107,5 @@ class ProductCategoryResource extends Resource
         }
 
         return parent::getEloquentQuery()->where('user_id', $user->id);
-
-
     }
 }

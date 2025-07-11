@@ -69,7 +69,7 @@ class User extends Authenticatable
 
     public function getLogoUrlAttribute()
     {
-        return $this->logo ? asset('storage/' . $this->logo) : null;
+        return $this->logo ? asset('storage/' . $this->logo) : asset('storage/store.png'); 
     }
 
     protected static function booted(): void
