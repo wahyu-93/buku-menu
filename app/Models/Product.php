@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
@@ -26,5 +28,33 @@ class Product extends Model
     public function transactionDetails()
     {
         return $this->hasMany(TransactionDetail::class);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function($model){
+            if(Auth::user()->role === 'store'){
+                $model->user_id = Auth::user()->id;
+            };
+        });
+
+        
+        static::updating(function($model){
+            if(Auth::user()->role === 'store'){
+                $model->user_id = Auth::user()->id;
+            };
+        });
+    }
+
+    protected static function booted(): void
+    {
+        static::deleting(function ($product) {
+            // Hapus file dari storage
+            if ($product->image) {
+                Storage::disk('public')->delete($product->image);
+            }
+        });
     }
 }
