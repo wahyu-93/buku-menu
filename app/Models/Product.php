@@ -30,6 +30,11 @@ class Product extends Model
         return $this->hasMany(TransactionDetail::class);
     }
 
+    public function productIngrediens()
+    {
+        return $this->hasMany(ProductIngredient::class);
+    }
+
     public static function boot()
     {
         parent::boot();
