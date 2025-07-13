@@ -83,6 +83,12 @@ class ProductResource extends Resource
                     ->numeric()
                     ->columnSpanFull()
                     ->prefix('Rp'),
+                Forms\Components\TextInput::make('rating')
+                    ->label('Rating')
+                    ->columnSpanFull()
+                    ->numeric(),
+                Forms\Components\Toggle::make('is_popular')
+                    ->label('Product Populer'),
             ]);
     }
 
@@ -96,12 +102,17 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('productCategory.name')
                     ->label('Product Kategori'),
                 Tables\Columns\ImageColumn::make('image')
-                    ->label('Foto Product'),
+                    ->label('Foto Product')
+                    ->size(50),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nama Product'),
                 Tables\Columns\TextColumn::make('price')
                     ->money('IDR')
                     ->label('Harga Product'),
+                Tables\Columns\TextColumn::make('rating')
+                    ->label('Rating'),
+                Tables\Columns\ToggleColumn::make('is_popular')
+                    ->label('Priduct Populer'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
