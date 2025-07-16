@@ -36,12 +36,14 @@ class TransactionResource extends Resource
                 Forms\Components\TextInput::make('code')
                     ->label('Code')
                     ->required()
+                    ->readOnly()
                     ->default(fn():string => 'TRX-' . mt_rand(10000,99999)),
                 Forms\Components\TextInput::make('name')
                     ->label('Nama Customer')
                     ->required(),
                 Forms\Components\TextInput::make('table_number')
                     ->label('Nomor Meja')
+                    ->numeric()
                     ->required(),
                 Forms\Components\Select::make('payment_method')
                     ->label('Metode Pembayaran')
@@ -58,6 +60,8 @@ class TransactionResource extends Resource
                         'failed'    => 'Gagal'    
                     ])
                     ->required(),
+                Forms\Components\TextInput::make('no_telp')
+                    ->columnSpanFull(),
                 Forms\Components\Repeater::make('transactionDetails')
                     ->relationship()
                     ->schema([
@@ -93,6 +97,7 @@ class TransactionResource extends Resource
                     })
                     ->reorderable(false),
                 Forms\Components\TextInput::make('total_price')
+                    ->label('Total Harga')
                     ->readOnly(),
             ]);
     }
@@ -108,6 +113,7 @@ class TransactionResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('no_telp'),
                 Tables\Columns\TextColumn::make('table_number')
                     ->numeric()
                     ->sortable(),
@@ -130,7 +136,10 @@ class TransactionResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('user')
+                    ->relationship('user','name')
+                    ->hidden(fn() => Auth::user()->role === 'store'),
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -167,4 +176,15 @@ class TransactionResource extends Resource
         // set nilainya kedalam total_price
         $set('total_price', (string)$total);
     } 
+
+    public static function getEloquentQuery(): Builder
+    {
+        $user = Auth::user();
+
+        if($user->role === 'admin'){
+            return parent::getEloquentQuery();
+        }
+
+        return parent::getEloquentQuery()->where('user_id', $user->id);
+    }
 }
