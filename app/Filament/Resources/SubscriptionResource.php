@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,6 +22,15 @@ class SubscriptionResource extends Resource
     protected static ?string $model = Subscription::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
+
+    public static function canEdit(Model $record): bool
+    {
+        if(Auth::user()->role === 'admin'){
+            return true;
+        };
+        
+        return false;
+    }
 
     public static function form(Form $form): Form
     {
@@ -49,7 +59,7 @@ class SubscriptionResource extends Resource
                                 'success'   => 'Success',
                                 'failed'    => 'Failed'
                             ])
-                            ->label('Status Pembayaran')
+                            ->label('Status Pembayaran')    
                             ->required()
                             ->columnSpanFull()
                             ->hidden(fn() => Auth::user()->role === 'store')
@@ -63,18 +73,21 @@ class SubscriptionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Toko')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Tanggal Mulai')
+                    ->dateTime(),
                 Tables\Columns\TextColumn::make('end_date')
-                    ->dateTime()
-                    ->sortable(),
+                    ->label('Tanggal Berakhir')
+                    ->dateTime(),
                 Tables\Columns\IconColumn::make('is_active')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\ImageColumn::make('subscriptionPayment.proof')
+                    ->label('Bukti Pembayaran'),
+                Tables\Columns\TextColumn::make('subscriptionPayment.status')
+                    ->label('Status Pembayaran'),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
@@ -103,5 +116,16 @@ class SubscriptionResource extends Resource
         return [
             'index' => Pages\ManageSubscriptions::route('/'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $user = Auth::user();
+
+        if($user->role === 'admin'){
+            return parent::getEloquentQuery();
+        }
+
+        return parent::getEloquentQuery()->where('user_id', $user->id);
     }
 }

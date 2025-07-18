@@ -6,6 +6,7 @@ use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\Subscription;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -177,5 +178,26 @@ class ProductResource extends Resource
         }
 
         return parent::getEloquentQuery()->where('user_id', $user->id);
+    }
+
+    public static function canCreate(): bool
+    {
+        if(Auth::user()->role === 'admin'){
+            return true;
+        }
+
+        // cek subsctription
+        $subscription = Subscription::where('user_id', Auth::user()->id)
+            ->where('end_date', '>',now())
+            ->where('is_active', true)
+            ->latest()
+            ->first();
+
+        // cek jumlah product yang sudah diinput user
+        $countProduct = Product::where('user_id', Auth::user()->id)->count();
+
+        return !($countProduct >=2  && !$subscription);
+
+
     }
 }
