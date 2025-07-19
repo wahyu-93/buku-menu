@@ -5,7 +5,7 @@
     </div>
     <div class="flex flex-col gap-4 mt-[10px]">
         @foreach ($products as $product)
-            <a href="details.html" class="card">
+            <a href="{{ route('product.show',['username' => $store->username, 'id' => $product->id]) }}" class="card">
                 <div
                     class="flex rounded-[8px] border border-[#F1F2F6] p-[12px] gap-4 bg-white hover:bg-[#FFF7F0] hover:border-[1px] hover:border-[#F3AF00] transition-all duration-300">
                     <img src="{{ asset('Storage/' . $product->image) }}" class="w-[128px] object-cover rounded-[8px]"

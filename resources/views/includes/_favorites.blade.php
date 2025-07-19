@@ -8,7 +8,7 @@
         <div class="swiper-wrapper mt-[10px]">
             @foreach ($populers as $populer)
                 <div class="swiper-slide !w-fit">
-                    <a href="details.html" class="card">
+                    <a href="{{ route('product.show',['username' => $store->username, 'id' => $populer->id]) }}" class="card">
                         <div
                             class="flex flex-col w-[210px] shrink-0 rounded-[8px] bg-white p-[12px] pb-5 gap-[10px] hover:bg-[#FFF7F0] hover:border-[1px] hover:border-[#F3AF00] transition-all duration-300 cursor-pointer">
                             <div

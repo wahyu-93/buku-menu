@@ -21,4 +21,21 @@ class FrontendController extends Controller
 
         return view('pages.index', compact('store', 'populers','products'));
     }
+
+    public function show(Request $request)
+    {
+         $store = User::where('username', $request->username)->first();
+
+        if(!$store){
+            abort(404);
+        };
+
+        $product = Product::where('id', $request->id)->first();
+
+        if(!$product){
+            abort(404);
+        };
+
+        return view('pages.product-details', compact('store', 'product'));
+    }
 }
