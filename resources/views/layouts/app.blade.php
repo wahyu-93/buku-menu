@@ -19,12 +19,9 @@
 <body>
     <div id="Content-Container"
         class="relative flex flex-col w-full max-w-[640px] min-h-screen mx-auto overflow-x-hidden pb-32">
+        
         @yield('content')
 
-        
-
-        <!-- navigation bottom -->
-       
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>

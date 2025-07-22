@@ -19,4 +19,9 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/{username}',[FrontendController::class,'index'])->name('index');
+
+Route::get('/{username}/find-product',[FrontendController::class,'find'])->name('product.find');
+Route::get('/{username}/find-product/result',[FrontendController::class,'findResult'])->name('product.find-result');
+
 Route::get('/{username}/product/{id}',[FrontendController::class,'show'])->name('product.show');
+

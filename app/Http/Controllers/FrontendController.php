@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductCategory;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,7 @@ class FrontendController extends Controller
 
     public function show(Request $request)
     {
-         $store = User::where('username', $request->username)->first();
+        $store = User::where('username', $request->username)->first();
 
         if(!$store){
             abort(404);
@@ -37,5 +38,44 @@ class FrontendController extends Controller
         };
 
         return view('pages.product-details', compact('store', 'product'));
+    }
+
+    public function find(Request $request)
+    {
+        $store = User::where('username', $request->username)->first();
+
+        if(!$store){
+            abort(404);
+        };
+
+        $categories = ProductCategory::where('user_id', $store->id)->get();
+
+        return view('pages.find-product',compact('store', 'categories'));
+    }
+
+    public function findResult(Request $request)
+    {
+        $store = User::where('username', $request->username)->first();
+
+        if(!$store){
+            abort(404);
+        };
+
+        $products = Product::where('user_id', $store->id);
+
+        // cari berdasarkan category
+        if(isset($request->category)){
+            $products = Product::where('product_category_id', $request->category);
+        };
+
+        // cari berdasarkan search atau ketik manual
+        if(isset($request->search)){
+            $products = Product::where('user_id', $store->id)
+                                ->where('name','like','%'.$request->search.'%');
+        };
+
+        $products = $products->get();
+
+        return view('pages.find-result', compact('store', 'products'));
     }
 }

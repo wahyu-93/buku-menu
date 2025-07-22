@@ -6,7 +6,7 @@
 
     <div class="swiper w-full">
         <div class="swiper-wrapper mt-[20px]">
-            <a href="#" class="swiper-slide !w-fit">
+            <a href="{{ route('product.find-result', $store->username) }}" class="swiper-slide !w-fit">
                 <div class="flex flex-col items-center shrink-0 gap-2 text-center">
                     <div
                         class="w-[64px] h-[64px] rounded-full flex shrink-0 overflow-hidden p-4 bg-[#9393931A] bg-opacity-10">
@@ -20,7 +20,7 @@
             </a>
 
             @foreach ($store->productCategories as $category)
-                <a href="#" class="swiper-slide !w-fit">
+                <a href="{{ route('product.find-result', $store->username) . '?category=' . $category->id}}" class="swiper-slide !w-fit">
                     <div class="flex flex-col items-center shrink-0 gap-2 text-center">
                         <div
                             class="w-[64px] h-[64px] rounded-full flex shrink-0 overflow-hidden p-4 bg-[#9393931A] bg-opacity-10">
