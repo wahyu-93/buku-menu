@@ -153,7 +153,7 @@
 
             <button type="button"
                 class="flex justify-center rounded-full p-[14px_28px] bg-[#FF801A] font-normal text-white"
-                data-id="1" onclick="addToCart(this.dataset.id)">
+                data-id="{{ $product->id }}" onclick="addToCart(this.dataset.id)">
                 Add To Cart
             </button>
         </div>
