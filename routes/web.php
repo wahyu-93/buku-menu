@@ -27,4 +27,5 @@ Route::get('/{username}/find-product/result',[FrontendController::class,'findRes
 Route::get('/{username}/product/{id}',[FrontendController::class,'show'])->name('product.show');
 
 Route::get('/{username}/cart', [TransactionController::class, 'cart'])->name('cart');
+Route::get('/{username}/customer-information', [TransactionController::class, 'customerInformation'])->name('customer.information');
 

@@ -31,7 +31,7 @@
             <p class="{{ Route::current()->getName == 'product.find' ? 'text-[#FF801A]' : 'text-[#606060]' }} font-[400] text-[12px]">Find</p>
         </a>
         
-        <a href="{{ route('index', $store->username) }}" class="flex flex-col items-center gap-2">
+        <a href="{{ route('customer.information', $store->username) }}" class="flex flex-col items-center gap-2">
             <img src="{{ asset('assets/images/icons/Profile.svg') }}" class="w-[24px] h-[24px]" alt="icon">
             <p class="text-[#606060] font-[400] text-[12px]">Profile</p>
         </a>

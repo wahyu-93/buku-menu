@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Filter produk berdasarkan ID di cartData
     const cartItems = document.querySelectorAll(".cart-item");
     cartItems.forEach((item) => {
+        console.log(item)
         const productId = item.dataset.id;
 
         // Cari produk di cartData
