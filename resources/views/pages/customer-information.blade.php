@@ -55,7 +55,8 @@
     
 </div>
 
-<form action="success.html" id="Form" method="POST">
+<form action="{{ route('checkout', $store->username) }}" id="Form" method="POST">
+    @csrf
     <div id="Informations" class="relative flex flex-col px-5">
         <div class="w-full flex flex-col rounded-[8px] border border-[#F1F2F6] p-5 gap-6 bg-white mt-6">
             <input type="hidden" name="cart" id="cart-data">
