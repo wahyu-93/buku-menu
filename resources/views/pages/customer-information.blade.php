@@ -68,7 +68,7 @@
                         <img src="{{ asset('assets/images/icons/Document.svg') }}" class="w-5 h-5 flex shrink-0" alt="icon">
                         <input type="text" name="name" id=""
                             class="appearance-none outline-none w-full font-regular placeholder:text-ngekos-grey placeholder:font-light"
-                            placeholder="Enter your name...">
+                            placeholder="Enter your name..." required>
                     </label>
                 </div>
 
@@ -90,7 +90,7 @@
                         <img src="{{ asset('assets/images/icons/Document.svg') }}" class="w-5 h-5 flex shrink-0" alt="icon">
                         <input type="text" name="table_number" id=""
                             class="appearance-none outline-none w-full font-regular placeholder:text-ngekos-grey placeholder:font-light"
-                            placeholder="Enter your table number....">
+                            placeholder="Enter your table number...." required>
                     </label>
                 </div>
             </div>
@@ -105,14 +105,14 @@
                 <div class="flex w-full gap-3">
                     <div class="flex items-center gap-2 rounded-[16px] p-[18px_28px] bg-[#F1F2F6] font-normal text-[#353535] w-full hover:cursor-pointer"
                         onclick="selectPayment('cash')" id="cash">
-                        <input type="radio" name="payment_method" id="cash" class="peer hidden" value="cash">
+                        <input type="radio" name="payment_method" id="cash" class="peer hidden" value="cash" required>
                         <p class="font-semibold">Cash</p>
                     </div>
 
                     <div class="flex items-center gap-2 rounded-[16px] p-[18px_28px] bg-[#F1F2F6] font-normal text-[#353535] w-full hover:cursor-pointer"
                         onclick="selectPayment('midtrans')" id="midtrans">
                         <input type="radio" name="payment_method" id="midtrans" class="peer hidden"
-                            value="midtrans">
+                            value="midtrans" required>
                         <p class="font-semibold">Midtrans</p>
                     </div>
                 </div>

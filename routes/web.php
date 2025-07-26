@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\FrontendController;
-use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\TransactionController; 
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,4 +30,5 @@ Route::get('/{username}/cart', [TransactionController::class, 'cart'])->name('ca
 Route::get('/{username}/customer-information', [TransactionController::class, 'customerInformation'])->name('customer.information');
 
 Route::post('/{username}/payment', [TransactionController::class, 'checkout'])->name('checkout');
+Route::get('/transacation/success',[TransactionController::class, 'success'])->name('success');
 

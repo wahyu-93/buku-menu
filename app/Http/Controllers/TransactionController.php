@@ -42,7 +42,6 @@ class TransactionController extends Controller
             abort(404);
         };
 
-
         // simpan transaksi
         $transaction = $store->transactions()->create([
             'code'  => 'TRX-' . mt_rand(10000,99999),
@@ -83,7 +82,21 @@ class TransactionController extends Controller
         ]);
 
 
-        dd('simpan');
+        if($request->payment_method === 'cash'){
+            return redirect()->route('success',['username' => $store->username, 'order_id' => $transaction->code]);        
+        }
+    }
+
+    public function success(Request $request)
+    {
+        $transaction = Transaction::where('code', $request->order_id)->first();
+        $store = User::where('username', $request->username)->first();
+
+        if(!$store){
+            abort(404);
+        };
+
+        return view('pages.success', compact('store', 'transaction'));
 
     }
 }
